@@ -17,6 +17,7 @@ mongoose
 
 // Since mongoose's Promise is deprecated, we override it with Node's Promise
 mongoose.Promise = global.Promise;
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -28,8 +29,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", auth);
-
-app.use(bodyParser.json());
 
 const socket = app.listen(port, () => {
   console.log(`Server running on port ${port}`);

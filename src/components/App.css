@@ -5,3 +5,7 @@ body,
   background: #eee;
   padding: 1em;
 }
+
+:root {
+  --primary-color: #f2701d;
+}

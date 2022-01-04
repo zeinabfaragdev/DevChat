@@ -9,7 +9,8 @@ import {
   Icon,
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../../redux/user/user-actions";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -18,7 +19,15 @@ const Register = () => {
     password: "",
     passwordConfirmation: "",
   });
-  const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.user.error);
+  const loading = useSelector((state) => state.user.loading);
+
+  const handleInputErrors = (name) => {
+    return error.toLowerCase().includes(name) ? "error" : "";
+  };
 
   const handleChange = (e) => {
     setInputs({
@@ -30,29 +39,12 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (inputs.password !== inputs.passwordConfirmation) {
-      setError("Passwords do not match");
-    }
-
-    const data = {
-      username: inputs.username,
-      password: inputs.password,
-      email: inputs.email,
-    };
-
-    axios
-      .post("http://localhost:5000/api/auth/signup", data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(signUp(inputs));
   };
   return (
     <Grid textAlign="center" verticalAlign="middle" className="register">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" icon color="orange" textAlign="center">
+        <Header as="h1" icon color="orange" textAlign="center">
           <Icon name="puzzle piece" color="orange" />
           Register for DevChat
         </Header>
@@ -68,9 +60,9 @@ const Register = () => {
               type="text"
               onChange={handleChange}
               required
-              required
             />
             <Form.Input
+              className={handleInputErrors("email")}
               fluid
               name="email"
               icon="mail"
@@ -83,6 +75,7 @@ const Register = () => {
             />
 
             <Form.Input
+              className={handleInputErrors("password")}
               fluid
               name="password"
               icon="lock"
@@ -91,10 +84,12 @@ const Register = () => {
               value={inputs.password}
               type="password"
               onChange={handleChange}
+              minLength={6}
               required
             />
 
             <Form.Input
+              className={handleInputErrors("password")}
               fluid
               name="passwordConfirmation"
               icon="repeat"
@@ -103,17 +98,30 @@ const Register = () => {
               value={inputs.passwordConfirmation}
               type="password"
               onChange={handleChange}
+              minLength={6}
               required
             />
           </Segment>
-          <Button color="orange" fluid size="large" type="submit">
+          <Button
+            className={loading ? "loading" : ""}
+            disabled={loading}
+            color="orange"
+            fluid
+            size="large"
+            type="submit"
+          >
             Submit
           </Button>
         </Form>
+        {error && (
+          <Message error>
+            <h3>Error</h3>
+            <p>{error} </p>
+          </Message>
+        )}
         <Message>
           Already a user? <Link to="/login">Login</Link>
         </Message>
-        <h5 style={{ color: "darkorange" }}>{error}</h5>
       </Grid.Column>
     </Grid>
   );
