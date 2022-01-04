@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 const auth = require("./routes/user");
 
 mongoose
-  .connect("mongodb://127.0.0.1/mongochat", { useNewUrlParser: true })
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
     console.log(`Database connected successfully`);
   })
