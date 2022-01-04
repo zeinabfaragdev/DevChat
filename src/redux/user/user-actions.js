@@ -1,8 +1,6 @@
 import axios from "axios";
 import md5 from "md5";
 
-axios.defaults.withCredentials = true;
-
 export const addUser = (user) => {
   return {
     type: "ADD_USER",
@@ -40,12 +38,12 @@ export const signIn = (user) => {
     axios
       .post("http://localhost:5000/api/auth/signin", user)
       .then((res) => {
+        dispatch(addUser(res.data));
         dispatch(endLoading());
-        console.log(res);
       })
       .catch((err) => {
         dispatch(endLoading());
-        // dispatch(addError(`${err.response.data}`));
+        dispatch(addError(`${err.response.data}`));
       });
   };
 };
@@ -66,8 +64,8 @@ export const signUp = (inputs) => {
       axios
         .post("http://localhost:5000/api/auth/signup", data)
         .then((res) => {
-          dispatch(endLoading());
           dispatch(addUser(res.data));
+          dispatch(endLoading());
         })
         .catch((err) => {
           dispatch(endLoading());
@@ -82,7 +80,7 @@ export const getUser = () => {
     axios
       .get("http://localhost:5000/api/auth")
       .then((res) => {
-        console.log(res);
+        dispatch(addUser(res.data));
       })
       .catch((err) => {
         console.log(err);
@@ -98,7 +96,6 @@ export const signOut = () => {
       .get("http://localhost:5000/api/auth/signout")
       .then((res) => {
         dispatch(removeUser());
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

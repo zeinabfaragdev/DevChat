@@ -31,7 +31,7 @@ router.post("/signup", async (req, res) => {
         }
       );
 
-      res.cookie("token", token, { httpOnly: true }).json(token);
+      res.cookie("token", token, { httpOnly: true }).json(user);
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -60,22 +60,21 @@ router.post("/signin", async (req, res) => {
         expiresIn: "2h",
       }
     );
-    res.cookie("token", token, { httpOnly: true }).json(token);
+    res.cookie("token", token, { httpOnly: true }).json(user);
   }
 });
 
 router.get("/", verifyToken, async (req, res) => {
   let userId = req.user.user_id;
   try {
-    let result = await User.find({ user: userId });
-
-    res.status(200).json({ result });
+    let result = await User.findOne({ _id: userId });
+    res.status(200).json(result);
   } catch (err) {
     res.status(404).json({ error: "User does not exist" });
   }
 });
 
-router.get("/signout", verifyToken, (req, res) => {
+router.get("/signout", (req, res) => {
   return res
     .clearCookie("token")
     .status(200)

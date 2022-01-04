@@ -1,10 +1,16 @@
-const userReducer = (
-  state = {
-    loading: false,
-    error: "",
-  },
-  action
-) => {
+const DEFAULT_USER_DATA = {
+  username: "",
+  avatar: "",
+  email: "",
+};
+
+const INITIAL_STATE = {
+  loading: false,
+  error: "",
+  data: DEFAULT_USER_DATA,
+};
+
+const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "ADD_USER":
       return {
@@ -13,9 +19,9 @@ const userReducer = (
         error: "",
       };
     case "REMOVE_USER":
-      delete state.data;
       return {
         ...state,
+        data: DEFAULT_USER_DATA,
       };
     case "START_LOADING":
       return {
