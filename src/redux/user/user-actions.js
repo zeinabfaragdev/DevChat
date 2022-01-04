@@ -1,6 +1,8 @@
 import axios from "axios";
 import md5 from "md5";
 
+axios.defaults.withCredentials = true;
+
 export const addUser = (user) => {
   return {
     type: "ADD_USER",
@@ -72,5 +74,36 @@ export const signUp = (inputs) => {
           dispatch(addError(`${err.response.data}`));
         });
     }
+  };
+};
+
+export const getUser = () => {
+  return (dispatch) => {
+    axios
+      .get("http://localhost:5000/api/auth")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        // dispatch(endLoading());
+        // dispatch(addError(`${err.response.data}`));
+      });
+  };
+};
+
+export const signOut = () => {
+  return (dispatch) => {
+    axios
+      .get("http://localhost:5000/api/auth/signout")
+      .then((res) => {
+        dispatch(removeUser());
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        // dispatch(endLoading());
+        // dispatch(addError(`${err.response.data}`));
+      });
   };
 };
