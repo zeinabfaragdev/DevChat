@@ -84,7 +84,7 @@ export const signUp = (inputs) => {
 export const getUser = () => {
   return (dispatch) => {
     axios
-      .get("http://localhost:5000/api/auth")
+      .get("https://developer-chat.herokuapp.com/api/auth")
       .then((res) => {
         dispatch(addUser(res.data));
       })
