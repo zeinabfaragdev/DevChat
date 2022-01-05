@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_APP_URL);
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
   // Request methods you wish to allow
   res.setHeader(
