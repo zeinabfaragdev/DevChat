@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Form,
@@ -10,9 +10,9 @@ import {
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signUp } from "../../redux/user/user-actions";
+import { signUp, removeError } from "../redux/user/user-actions";
 
-const Register = () => {
+const RegisterPage = () => {
   const [inputs, setInputs] = useState({
     username: "",
     email: "",
@@ -21,6 +21,8 @@ const Register = () => {
   });
 
   const dispatch = useDispatch();
+
+  useEffect(() => dispatch(removeError()), [dispatch]);
 
   const error = useSelector((state) => state.user.error);
   const loading = useSelector((state) => state.user.loading);
@@ -127,4 +129,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

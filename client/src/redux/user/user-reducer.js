@@ -38,6 +38,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.payload,
       };
+    case "REMOVE_ERROR":
+      return {
+        ...state,
+        error: "",
+      };
     default:
       return state;
   }

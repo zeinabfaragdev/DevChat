@@ -33,6 +33,12 @@ export const addError = (error) => {
   };
 };
 
+export const removeError = () => {
+  return {
+    type: "REMOVE_ERROR",
+  };
+};
+
 export const signIn = (user) => {
   return (dispatch) => {
     axios

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Form,
@@ -10,9 +10,9 @@ import {
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoading, signIn } from "../../redux/user/user-actions";
+import { startLoading, signIn, removeError } from "../redux/user/user-actions";
 
-const Login = () => {
+const LoginPage = () => {
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -22,6 +22,8 @@ const Login = () => {
   let loading = useSelector((state) => state.user.loading);
 
   const dispatch = useDispatch();
+
+  useEffect(() => dispatch(removeError()), [dispatch]);
 
   const handleInputErrors = (name) => {
     return error.toLowerCase().includes(name) ? "error" : "";
@@ -104,4 +106,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
