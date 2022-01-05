@@ -42,7 +42,7 @@ export const removeError = () => {
 export const signIn = (user) => {
   return (dispatch) => {
     axios
-      .post("http://localhost:5000/api/auth/signin", user)
+      .post("/api/auth/signin", user)
       .then((res) => {
         dispatch(addUser(res.data));
         dispatch(endLoading());
@@ -68,7 +68,7 @@ export const signUp = (inputs) => {
       };
 
       axios
-        .post("http://localhost:5000/api/auth/signup", data)
+        .post("/api/auth/signup", data)
         .then((res) => {
           dispatch(addUser(res.data));
           dispatch(endLoading());
@@ -84,7 +84,7 @@ export const signUp = (inputs) => {
 export const getUser = () => {
   return (dispatch) => {
     axios
-      .get("https://developer-chat.herokuapp.com/api/auth")
+      .get("/api/auth")
       .then((res) => {
         dispatch(addUser(res.data));
       })
@@ -99,7 +99,7 @@ export const getUser = () => {
 export const signOut = () => {
   return (dispatch) => {
     axios
-      .get("http://localhost:5000/api/auth/signout")
+      .get("/api/auth/signout")
       .then((res) => {
         dispatch(removeUser());
       })
