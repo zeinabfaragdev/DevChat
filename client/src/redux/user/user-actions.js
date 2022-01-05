@@ -45,10 +45,8 @@ export const signIn = (user) => {
       .post("/api/auth/signin", user)
       .then((res) => {
         dispatch(addUser(res.data));
-        dispatch(endLoading());
       })
       .catch((err) => {
-        dispatch(endLoading());
         dispatch(addError(`${err.response.data}`));
       });
   };
@@ -71,10 +69,8 @@ export const signUp = (inputs) => {
         .post("/api/auth/signup", data)
         .then((res) => {
           dispatch(addUser(res.data));
-          dispatch(endLoading());
         })
         .catch((err) => {
-          dispatch(endLoading());
           dispatch(addError(`${err.response.data}`));
         });
     }
@@ -83,15 +79,14 @@ export const signUp = (inputs) => {
 
 export const getUser = () => {
   return (dispatch) => {
+    dispatch(startLoading());
     axios
       .get("/api/auth")
       .then((res) => {
         dispatch(addUser(res.data));
       })
-      .catch((err) => {
-        console.log(err);
-        // dispatch(endLoading());
-        // dispatch(addError(`${err.response.data}`));
+      .catch(() => {
+        dispatch(endLoading());
       });
   };
 };

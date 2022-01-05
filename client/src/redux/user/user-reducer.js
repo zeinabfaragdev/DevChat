@@ -16,6 +16,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: action.payload,
+        loading: false,
         error: "",
       };
     case "REMOVE_USER":
@@ -37,6 +38,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
+        loading: false,
       };
     case "REMOVE_ERROR":
       return {
