@@ -25,7 +25,7 @@ const RegisterPage = () => {
   useEffect(() => dispatch(removeError()), [dispatch]);
 
   const error = useSelector((state) => state.user.error);
-  const loading = useSelector((state) => state.user.loading);
+  const loading = useSelector((state) => state.user.authLoading);
 
   const handleInputErrors = (name) => {
     return error.toLowerCase().includes(name) ? "error" : "";

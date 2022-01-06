@@ -14,7 +14,9 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.data);
+  const loading = useSelector((state) => state.user.userLoading);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,15 +28,23 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={user.loading ? <Spinner /> : <HomePage user={user.data} />}
+          element={
+            loading ? (
+              <Spinner />
+            ) : user ? (
+              <HomePage />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/login"
-          element={user.data.username ? <Navigate to="/" /> : <LoginPage />}
+          element={user ? <Navigate to="/" /> : <LoginPage />}
         />
         <Route
           path="/register"
-          element={user.data.username ? <Navigate to="/" /> : <RegisterPage />}
+          element={user ? <Navigate to="/" /> : <RegisterPage />}
         />
       </Routes>
     </Router>

@@ -1,13 +1,8 @@
-const DEFAULT_USER_DATA = {
-  username: "",
-  avatar: "",
-  email: "",
-};
-
 const INITIAL_STATE = {
-  loading: false,
+  authLoading: false,
+  userLoading: true,
   error: "",
-  data: DEFAULT_USER_DATA,
+  data: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -16,29 +11,30 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: action.payload,
-        loading: false,
+        authLoading: false,
+        userLoading: false,
         error: "",
       };
     case "REMOVE_USER":
       return {
-        ...state,
-        data: DEFAULT_USER_DATA,
+        ...INITIAL_STATE,
+        userLoading: false,
       };
-    case "START_LOADING":
+    case "START_AUTH_LOADING":
       return {
         ...state,
-        loading: true,
+        authLoading: true,
       };
-    case "END_LOADING":
+    case "END_USER_LOADING":
       return {
         ...state,
-        loading: false,
+        userLoading: false,
       };
     case "ADD_ERROR":
       return {
         ...state,
         error: action.payload,
-        loading: false,
+        authLoading: false,
       };
     case "REMOVE_ERROR":
       return {

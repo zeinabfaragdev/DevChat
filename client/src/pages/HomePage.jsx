@@ -1,19 +1,24 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { signOut } from "../redux/user/user-actions";
-import { Link } from "react-router-dom";
+import { Grid } from "semantic-ui-react";
+import ColorPanel from "../components/ColorPanel";
+import SidePanel from "../components/SidePanel";
+import Messages from "../components/Messages";
+import MetaPanel from "../components/MetaPanel";
 
-const HomePage = ({ user }) => {
-  const dispatch = useDispatch();
-
+const HomePage = () => {
   return (
     <div>
-      <h1> Welcome {user.username}!</h1>
-      {user.username ? (
-        <button onClick={() => dispatch(signOut())}>Sign Out</button>
-      ) : (
-        <Link to="/login"> Sign In</Link>
-      )}
+      <Grid columns="equal" className="home" style={{ background: "#eee" }}>
+        <ColorPanel />
+        <SidePanel />
+        <Grid.Column style={{ marginLeft: 320 }}>
+          <Messages />
+        </Grid.Column>
+
+        <Grid.Column width={4}>
+          <MetaPanel />
+        </Grid.Column>
+      </Grid>
     </div>
   );
 };

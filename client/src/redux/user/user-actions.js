@@ -14,15 +14,15 @@ export const removeUser = () => {
   };
 };
 
-export const startLoading = () => {
+export const startAuthLoading = () => {
   return {
-    type: "START_LOADING",
+    type: "START_AUTH_LOADING",
   };
 };
 
-export const endLoading = () => {
+export const endUserLoading = () => {
   return {
-    type: "END_LOADING",
+    type: "END_USER_LOADING",
   };
 };
 
@@ -41,6 +41,7 @@ export const removeError = () => {
 
 export const signIn = (user) => {
   return (dispatch) => {
+    dispatch(startAuthLoading());
     axios
       .post("/api/auth/signin", user)
       .then((res) => {
@@ -57,7 +58,7 @@ export const signUp = (inputs) => {
     if (inputs.password !== inputs.passwordConfirmation) {
       dispatch(addError("Passwords do not match"));
     } else {
-      dispatch(startLoading());
+      dispatch(startAuthLoading());
       const data = {
         username: inputs.username,
         password: inputs.password,
@@ -79,14 +80,13 @@ export const signUp = (inputs) => {
 
 export const getUser = () => {
   return (dispatch) => {
-    dispatch(startLoading());
     axios
       .get("/api/auth")
       .then((res) => {
         dispatch(addUser(res.data));
       })
       .catch(() => {
-        dispatch(endLoading());
+        dispatch(endUserLoading());
       });
   };
 };
@@ -95,13 +95,11 @@ export const signOut = () => {
   return (dispatch) => {
     axios
       .get("/api/auth/signout")
-      .then((res) => {
+      .then(() => {
         dispatch(removeUser());
       })
       .catch((err) => {
         console.log(err);
-        // dispatch(endLoading());
-        // dispatch(addError(`${err.response.data}`));
       });
   };
 };

@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoading, signIn, removeError } from "../redux/user/user-actions";
+import { signIn, removeError } from "../redux/user/user-actions";
 
 const LoginPage = () => {
   const [inputs, setInputs] = useState({
@@ -19,7 +19,7 @@ const LoginPage = () => {
   });
 
   let error = useSelector((state) => state.user.error);
-  let loading = useSelector((state) => state.user.loading);
+  let loading = useSelector((state) => state.user.authLoading);
 
   const dispatch = useDispatch();
 
@@ -38,7 +38,6 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(startLoading());
     const data = {
       password: inputs.password,
       email: inputs.email,
