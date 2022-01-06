@@ -63,7 +63,7 @@ export const signUp = (inputs) => {
         username: inputs.username,
         password: inputs.password,
         email: inputs.email,
-        avatar: `http://gravatar.com/avatar/${md5(inputs.email)}?d=identicon`,
+        avatar: `https://gravatar.com/avatar/${md5(inputs.email)}?d=identicon`,
       };
 
       axios

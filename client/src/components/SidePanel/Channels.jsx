@@ -15,8 +15,8 @@ const Channels = () => {
 
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.data._id);
-  const channels = useSelector((state) => state.channels.all);
-  const currentChannel = useSelector((state) => state.channels.current);
+  const channels = useSelector((state) => state.channel.all);
+  const currentChannel = useSelector((state) => state.channel.current);
 
   useEffect(() => {
     dispatch(getChannels());
@@ -48,6 +48,7 @@ const Channels = () => {
           </span>{" "}
           ({channels.length}) <Icon name="add" onClick={() => setModal(true)} />
         </Menu.Item>
+
         {channels.map((channel) => (
           <Menu.Item
             key={channel._id}

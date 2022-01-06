@@ -25,11 +25,11 @@ const UserPanel = () => {
       },
       {
         key: "avatar",
-        text: <span>Change Avatar</span>,
+        text: <div>Change Avatar</div>,
       },
       {
         key: "signout",
-        text: <span onClick={() => handleSignOut()}>Sign Out</span>,
+        text: <div onClick={() => handleSignOut()}>Sign Out</div>,
       },
     ];
   };
