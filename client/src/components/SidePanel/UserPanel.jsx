@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Header, Icon, Dropdown, Image } from "semantic-ui-react";
 import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "../redux/user/user-actions";
+import { signOut } from "../../redux/user/user-actions";
 
 const UserPanel = () => {
   const username = useSelector((state) => state.user.data.username);

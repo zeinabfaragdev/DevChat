@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
 import ColorPanel from "../components/ColorPanel";
-import SidePanel from "../components/SidePanel";
-import Messages from "../components/Messages";
+import SidePanel from "../components/SidePanel/SidePanel";
+import Messages from "../components/Messages/Messages";
 import MetaPanel from "../components/MetaPanel";
 
 const HomePage = () => {

@@ -11,6 +11,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const auth = require("./routes/user");
+const channel = require("./routes/channel");
 
 mongoose
   .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
@@ -32,6 +33,7 @@ app.use(
 );
 
 app.use("/api/auth", auth);
+app.use("/api/channel", channel);
 
 app.use(express.static(path.join(__dirname, "client", "build")));
 
