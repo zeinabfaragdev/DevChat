@@ -6,7 +6,6 @@ router.post("/", async (req, res) => {
   const channel = new Channel(req.body);
   try {
     await channel.save();
-    await channel.populate("createdBy", "avatar username");
     res.json(channel);
   } catch (error) {
     res.status(500).send(error.message);
@@ -20,6 +19,24 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
+});
+
+router.put("/:channelId", async (req, res) => {
+  console.log(req.body.user);
+  let channel = await Channel.findByIdAndUpdate(
+    req.params.channelId,
+    {
+      $push: {
+        messages: {
+          content: req.body.content,
+          user: req.body.user,
+        },
+      },
+    },
+    { new: true, upsert: true }
+  );
+
+  res.json(channel);
 });
 
 module.exports = router;

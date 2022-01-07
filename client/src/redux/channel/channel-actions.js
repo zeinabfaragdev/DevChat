@@ -14,6 +14,13 @@ export const addChannels = (channels) => {
   };
 };
 
+export const updateChannel = (channel) => {
+  return {
+    type: "UPDATE_CHANNEL",
+    payload: channel,
+  };
+};
+
 export const addChannelRequest = (channel) => {
   return (dispatch) => {
     axios
@@ -44,5 +51,14 @@ export const setCurrentChannel = (channel) => {
   return {
     type: "SET_CURRENT_CHANNEL",
     payload: channel,
+  };
+};
+
+export const updateChannelMessages = (id, data) => {
+  return (dispatch) => {
+    axios
+      .put(`/api/channel/${id}`, data)
+      .then((res) => dispatch(updateChannel(res.data)))
+      .catch((err) => console.log(err));
   };
 };

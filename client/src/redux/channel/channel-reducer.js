@@ -11,6 +11,14 @@ const channelReducer = (state = INITIAL_STATE, action) => {
         all: [...state.all, action.payload],
         current: action.payload,
       };
+    case "UPDATE_CHANNEL":
+      return {
+        ...state,
+        all: state.all.map((channel) =>
+          channel._id === action.payload._id ? action.payload : channel
+        ),
+        current: action.payload,
+      };
     case "ADD_CHANNELS":
       return {
         ...state,
