@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Segment, Button, Input, Form } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateChannelMessages } from "../../redux/channel/channel-actions";
+import FileModal from "./FileModal";
 
 const MessageForm = () => {
   const [message, setMessage] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+
   const currentChannel = useSelector((state) => state.channel.current);
   const user = useSelector((state) => state.user.data);
 
@@ -46,9 +49,14 @@ const MessageForm = () => {
           />
           <Button
             color="teal"
+            onClick={() => setOpenModal(true)}
             content="Upload Media"
             labelPosition="right"
             icon="cloud upload"
+          />
+          <FileModal
+            openModal={openModal}
+            closeModal={() => setOpenModal(false)}
           />
         </Button.Group>
       </Form>
