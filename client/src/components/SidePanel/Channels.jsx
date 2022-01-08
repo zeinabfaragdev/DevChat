@@ -26,7 +26,6 @@ const Channels = () => {
 
   useEffect(() => {
     let socket = io("/");
-    socket.connect();
 
     socket.on("channel recieved", (channel) => {
       dispatch(addChannel(channel));

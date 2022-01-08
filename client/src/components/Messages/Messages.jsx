@@ -15,7 +15,6 @@ const Messages = () => {
 
   useEffect(() => {
     let socket = io("/");
-    socket.connect();
 
     socket.on("message recieved", (channel) => {
       dispatch(updateChannel(channel));
