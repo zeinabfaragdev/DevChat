@@ -9,6 +9,7 @@ const channelReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         all: [...state.all, action.payload],
+        current: state.current ? state.current : action.payload,
       };
     case "UPDATE_CHANNEL":
       return {
