@@ -38,6 +38,7 @@ export const addChannelRequest = (channel) => {
       .then((res) => {
         socket.emit("new channel", res.data);
         dispatch(setCurrentChannel(res.data));
+        dispatch(addChannel(res.data));
       })
       .catch((err) => {
         console.log(err);
