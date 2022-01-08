@@ -20,12 +20,14 @@ const ChannelSchema = new mongoose.Schema({
         {
           content: {
             type: String,
-            required: true,
           },
           user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             autopopulate: { select: "avatar username" },
+          },
+          image: {
+            type: String,
           },
         },
         { timestamps: true }

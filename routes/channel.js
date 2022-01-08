@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Channel = require("../models/Channel");
+const upload = require("../middleware/upload");
 
 router.post("/", async (req, res) => {
   const channel = new Channel(req.body);
@@ -29,6 +30,25 @@ router.put("/:channelId", async (req, res) => {
         messages: {
           content: req.body.content,
           user: req.body.user,
+        },
+      },
+    },
+    { new: true, upsert: true }
+  );
+
+  res.json(channel);
+});
+
+router.put("/image/:channelId", upload.single("image"), async (req, res) => {
+  const user = req.body.user;
+  const image = req.file.filename;
+  let channel = await Channel.findByIdAndUpdate(
+    req.params.channelId,
+    {
+      $push: {
+        messages: {
+          image,
+          user,
         },
       },
     },

@@ -60,11 +60,28 @@ export const getChannels = () => {
 };
 
 export const updateChannelMessages = (id, data) => {
-  return () => {
+  return (dispatch) => {
     axios
       .put(`/api/channel/${id}`, data)
       .then((res) => {
         socket.emit("new message", res.data);
+        dispatch(updateChannel(res.data));
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const updateChannelImage = (id, data) => {
+  return (dispatch) => {
+    axios
+      .put(`/api/channel/image/${id}`, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        socket.emit("new message", res.data);
+        dispatch(updateChannel(res.data));
       })
       .catch((err) => console.log(err));
   };

@@ -36,6 +36,7 @@ const Messages = () => {
                 content={message.content}
                 user={message.user}
                 timestamp={message.createdAt}
+                image={message.image}
               />
             ))}
         </Comment.Group>

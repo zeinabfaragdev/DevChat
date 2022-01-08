@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Segment, Button, Input, Form } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateChannelMessages } from "../../redux/channel/channel-actions";
+import {
+  updateChannelMessages,
+  updateChannelImage,
+} from "../../redux/channel/channel-actions";
 import FileModal from "./FileModal";
 
 const MessageForm = () => {
@@ -23,6 +26,13 @@ const MessageForm = () => {
       );
       setMessage("");
     }
+  };
+
+  const sendPicture = (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("user", user._id);
+    dispatch(updateChannelImage(currentChannel._id, formData));
   };
 
   return (
@@ -57,6 +67,7 @@ const MessageForm = () => {
           <FileModal
             openModal={openModal}
             closeModal={() => setOpenModal(false)}
+            sendPicture={sendPicture}
           />
         </Button.Group>
       </Form>
