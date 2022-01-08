@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Segment, Comment } from "semantic-ui-react";
 import MessageForm from "./MessageForm";
 import MessagesHeader from "./MessagesHeader";
 import Message from "./Message";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { io } from "socket.io-client";
+import { updateChannel } from "../../redux/channel/channel-actions";
 
 const Messages = () => {
   const messages = useSelector(
     (state) => state.channel.current && state.channel.current.messages
   );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let socket = io("/");
+    socket.connect();
+
+    socket.on("message recieved", (channel) => {
+      dispatch(updateChannel(channel));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  });
   return (
     <div>
       <MessagesHeader />

@@ -41,6 +41,22 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
+});
+
+const io = require("socket.io")(server, {
+  cors: {
+    origin: process.env.FRONTEND_APP_URL,
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("new message", (channel) => {
+    socket.broadcast.emit("message recieved", channel);
+  });
+
+  socket.on("new channel", (channel) => {
+    socket.broadcast.emit("channel recieved", channel);
+  });
 });

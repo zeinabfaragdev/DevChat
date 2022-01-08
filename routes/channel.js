@@ -22,7 +22,6 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/:channelId", async (req, res) => {
-  console.log(req.body.user);
   let channel = await Channel.findByIdAndUpdate(
     req.params.channelId,
     {

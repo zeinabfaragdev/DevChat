@@ -1,4 +1,7 @@
 import axios from "axios";
+import io from "socket.io-client";
+
+const socket = io("/");
 
 export const addChannel = (channel) => {
   return {
@@ -21,12 +24,20 @@ export const updateChannel = (channel) => {
   };
 };
 
+export const setCurrentChannel = (channel) => {
+  return {
+    type: "SET_CURRENT_CHANNEL",
+    payload: channel,
+  };
+};
+
 export const addChannelRequest = (channel) => {
   return (dispatch) => {
     axios
       .post("/api/channel", channel)
       .then((res) => {
-        dispatch(addChannel(res.data));
+        socket.emit("new channel", res.data);
+        dispatch(setCurrentChannel(res.data));
       })
       .catch((err) => {
         console.log(err);
@@ -47,18 +58,13 @@ export const getChannels = () => {
   };
 };
 
-export const setCurrentChannel = (channel) => {
-  return {
-    type: "SET_CURRENT_CHANNEL",
-    payload: channel,
-  };
-};
-
 export const updateChannelMessages = (id, data) => {
-  return (dispatch) => {
+  return () => {
     axios
       .put(`/api/channel/${id}`, data)
-      .then((res) => dispatch(updateChannel(res.data)))
+      .then((res) => {
+        socket.emit("new message", res.data);
+      })
       .catch((err) => console.log(err));
   };
 };

@@ -5,7 +5,9 @@ import {
   addChannelRequest,
   getChannels,
   setCurrentChannel,
+  addChannel,
 } from "../../redux/channel/channel-actions";
+import io from "socket.io-client";
 
 const Channels = () => {
   const [channelName, setChannelName] = useState("");
@@ -21,6 +23,19 @@ const Channels = () => {
   useEffect(() => {
     dispatch(getChannels());
   }, [dispatch]);
+
+  useEffect(() => {
+    let socket = io("/");
+    socket.connect();
+
+    socket.on("channel recieved", (channel) => {
+      dispatch(addChannel(channel));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  });
 
   const handleChannelSubmit = (e) => {
     e.preventDefault();
