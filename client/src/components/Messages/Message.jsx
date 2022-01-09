@@ -21,7 +21,7 @@ const Message = ({ content, user, timestamp, image }) => {
         <Comment.Metadata>{timeFromNow(timestamp)}</Comment.Metadata>
         {image ? (
           <Image
-            src={`${window.location.href}images/${image}`}
+            src={`${window.location.href}uploads/${image}`}
             className="message__image"
           />
         ) : (
