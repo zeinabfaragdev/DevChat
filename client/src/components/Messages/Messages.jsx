@@ -8,9 +8,7 @@ import { io } from "socket.io-client";
 import { updateChannel } from "../../redux/channel/channel-actions";
 
 const Messages = () => {
-  const messages = useSelector(
-    (state) => state.channel.current && state.channel.current.messages
-  );
+  const messages = useSelector((state) => state.channel.current.messages);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,16 +27,15 @@ const Messages = () => {
       <MessagesHeader />
       <Segment>
         <Comment.Group className="messages">
-          {messages &&
-            messages.map((message) => (
-              <Message
-                key={message._id}
-                content={message.content}
-                user={message.user}
-                timestamp={message.createdAt}
-                image={message.image}
-              />
-            ))}
+          {messages.map((message) => (
+            <Message
+              key={message._id}
+              content={message.content}
+              user={message.user}
+              timestamp={message.createdAt}
+              image={message.image}
+            />
+          ))}
         </Comment.Group>
       </Segment>
 

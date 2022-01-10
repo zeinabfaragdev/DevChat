@@ -1,5 +1,7 @@
 const INITIAL_STATE = {
-  current: {},
+  current: {
+    messages: [],
+  },
   all: [],
 };
 
@@ -25,7 +27,7 @@ const channelReducer = (state = INITIAL_STATE, action) => {
     case "ADD_CHANNELS":
       return {
         ...state,
-        current: action.payload[0],
+        current: action.payload[0] ? action.payload[0] : INITIAL_STATE.current,
         all: action.payload,
       };
     case "SET_CURRENT_CHANNEL":

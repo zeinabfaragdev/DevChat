@@ -3,24 +3,19 @@ import { Header, Segment, Input, Icon } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 const MessagesHeader = () => {
   const currentChannel = useSelector((state) => state.channel.current);
-  const messages = useSelector(
-    (state) => state.channel.current && state.channel.current.messages
-  );
+  const messages = useSelector((state) => state.channel.current.messages);
 
-  let numUsers = "";
+  let uniqueUsers = [...new Set(messages.map((item) => item.user._id))];
 
   const calcNumUsers = () => {
-    let uniqueUsers = [...new Set(messages.map((item) => item.user._id))];
     if (uniqueUsers.length === 0) {
-      numUsers = "No Users";
+      return "No Users";
     } else if (uniqueUsers.length === 1) {
-      numUsers = "1 User";
+      return "1 User";
     } else {
-      numUsers = `${uniqueUsers.length} Users`;
+      return `${uniqueUsers.length} Users`;
     }
   };
-
-  messages && calcNumUsers();
 
   return (
     <Segment clearing>
@@ -29,7 +24,7 @@ const MessagesHeader = () => {
           #{currentChannel.name}
           <Icon name="star outline" color="black" />
         </span>
-        <Header.Subheader>{numUsers}</Header.Subheader>
+        <Header.Subheader>{calcNumUsers()}</Header.Subheader>
       </Header>
       <Header floated="right">
         <Input
