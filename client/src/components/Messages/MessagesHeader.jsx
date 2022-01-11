@@ -1,7 +1,7 @@
 import React from "react";
 import { Header, Segment, Input, Icon } from "semantic-ui-react";
 import { useSelector } from "react-redux";
-const MessagesHeader = () => {
+const MessagesHeader = ({ searchTerm, onSearchTermChange }) => {
   const currentChannel = useSelector((state) => state.channel.current);
   const messages = useSelector((state) => state.channel.current.messages);
 
@@ -28,6 +28,8 @@ const MessagesHeader = () => {
       </Header>
       <Header floated="right">
         <Input
+          value={searchTerm}
+          onChange={onSearchTermChange}
           size="mini"
           icon="search"
           name="searchTerm"

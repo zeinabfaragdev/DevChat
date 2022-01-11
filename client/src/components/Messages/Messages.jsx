@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Segment, Comment } from "semantic-ui-react";
 import MessageForm from "./MessageForm";
 import MessagesHeader from "./MessagesHeader";
@@ -11,6 +11,8 @@ const Messages = () => {
   const messages = useSelector((state) => state.channel.current.messages);
   const dispatch = useDispatch();
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     let socket = io("/");
 
@@ -22,12 +24,30 @@ const Messages = () => {
       socket.disconnect();
     };
   });
+
+  const onSearchTermChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const regex = new RegExp(searchTerm, "gi");
+
+  const filteredMessages = searchTerm
+    ? messages.filter(
+        (message) =>
+          (message.content && message.content.match(regex)) ||
+          message.user.username.match(regex)
+      )
+    : messages;
+
   return (
     <div>
-      <MessagesHeader />
+      <MessagesHeader
+        searchTerm={searchTerm}
+        onSearchTermChange={onSearchTermChange}
+      />
       <Segment>
         <Comment.Group className="messages">
-          {messages.map((message) => (
+          {filteredMessages.map((message) => (
             <Message
               key={message._id}
               content={message.content}
