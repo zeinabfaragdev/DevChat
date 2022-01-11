@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Channel = require("../models/Channel");
 const upload = require("../middleware/upload");
+const { uploadFile } = require("../s3");
 
 router.post("/", async (req, res) => {
   const channel = new Channel(req.body);
@@ -41,13 +42,14 @@ router.put("/:channelId", async (req, res) => {
 
 router.put("/image/:channelId", upload.single("image"), async (req, res) => {
   const user = req.body.user;
-  const image = req.file.filename;
+  const s3Result = await uploadFile(req.file);
+
   let channel = await Channel.findByIdAndUpdate(
     req.params.channelId,
     {
       $push: {
         messages: {
-          image,
+          image: s3Result.Location,
           user,
         },
       },

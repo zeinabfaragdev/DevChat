@@ -20,10 +20,7 @@ const Message = ({ content, user, timestamp, image }) => {
         <Comment.Author as="a">{user.username}</Comment.Author>
         <Comment.Metadata>{timeFromNow(timestamp)}</Comment.Metadata>
         {image ? (
-          <Image
-            src={`${window.location.href}uploads/${image}`}
-            className="message__image"
-          />
+          <Image src={image} className="message__image" />
         ) : (
           <Comment.Text>{content}</Comment.Text>
         )}
